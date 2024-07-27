@@ -1,17 +1,18 @@
-```markdown
 # S3 Folder Uploader
 
 ## Table Of Contents
-- [Overview](#overview)
-  - [Key Features](#key-features)
-  - [User Interface](#user-interface)
-  - [How to Use](#how-to-use)
-  - [Technical Summary](#technical-summary)
-- [Prerequisites](#prerequisites)
-  - [Example `secrets.py`](#example-secretspy)
-  - [Directory Structure](#directory-structure)
-  - [Running the Script](#running-the-script)
-  - [Additional Notes](#additional-notes)
+- [S3 Folder Uploader](#s3-folder-uploader)
+  - [Table Of Contents](#table-of-contents)
+  - [Overview](#overview)
+    - [Key Features](#key-features)
+    - [User Interface](#user-interface)
+    - [How to Use](#how-to-use)
+    - [Technical Summary](#technical-summary)
+  - [Prerequisites](#prerequisites)
+    - [Example `secrets.py`](#example-secretspy)
+    - [Directory Structure](#directory-structure)
+    - [Running the Script](#running-the-script)
+    - [Additional Notes](#additional-notes)
 
 ## Overview
 
@@ -93,7 +94,6 @@ To run the S3 Folder Uploader script, you need to ensure the following prerequis
      ```python
      ACCESS_KEY = 'your_access_key_here'
      SECRET_KEY = 'your_secret_key_here'
-     ```
 
 4. **AWS Permissions**:
    - Ensure that the AWS credentials used have sufficient permissions to list, upload, and delete objects in the S3 buckets.
