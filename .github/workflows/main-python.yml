@@ -35,8 +35,7 @@ jobs:
 
       - name: Run script
         run: |
-          # Replace this with the command to run your script
-          echo "Run your script here"
+          python s3_bucket_manager_gui.py
           
       - name: Run tests
         run: |
