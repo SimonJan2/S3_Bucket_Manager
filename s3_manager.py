@@ -3,6 +3,7 @@ import boto3
 from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 
+# Set up Flask app
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'temp_uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -14,6 +15,7 @@ SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 # Initialize S3 client
 s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY) if ACCESS_KEY and SECRET_KEY else None
 
+# Define routes
 def upload_to_s3(local_path, bucket_name, s3_path):
     if os.path.isdir(local_path):
         for item in os.listdir(local_path):
