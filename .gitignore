@@ -4,3 +4,5 @@ secrets_1.py
 auto_s3_backup.py
 # ignore __pycache__
 __pycache__
+
+Dockerfile

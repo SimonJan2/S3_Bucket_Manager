@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 Bucket Manager</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #2e2e2e; color: #d3d3d3; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #ffffff; }
+        label, select, input, button { margin: 10px 0; }
+        select, input, button { padding: 5px; }
+        button { background-color: #444444; color: #ffffff; border: none; cursor: pointer; }
+        button:hover { background-color: #555555; }
+        #file-list { list-style-type: none; padding: 0; }
+        #file-list li { background-color: #3e3e3e; padding: 5px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>S3 Bucket Manager</h1>
+        <div>
+            <label for="bucket-select">S3 Bucket:</label>
+            <select id="bucket-select"></select>
+            <button id="fetch-buckets">Fetch Buckets</button>
+        </div>
+        <div>
+            <input type="file" id="folder-input" webkitdirectory directory multiple>
+            <button id="upload-folder">Upload Folder</button>
+        </div>
+        <div>
+            <button id="list-contents">List Contents</button>
+            <button id="clear-bucket">Clear Bucket</button>
+        </div>
+        <ul id="file-list"></ul>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#fetch-buckets').click(function() {
+                $.get('/fetch_buckets', function(data) {
+                    $('#bucket-select').empty();
+                    data.forEach(function(bucket) {
+                        $('#bucket-select').append($('<option>', {value: bucket, text: bucket}));
+                    });
+                });
+            });
+
+            $('#upload-folder').click(function() {
+                var formData = new FormData();
+                var files = $('#folder-input')[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('folder', files[i]);
+                }
+                formData.append('bucket', $('#bucket-select').val());
+
+                $.ajax({
+                    url: '/upload_folder',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert(response.message);
+                    },
+                    error: function(xhr) {
+                        alert('Error: ' + xhr.responseJSON.error);
+                    }
+                });
+            });
+
+            $('#list-contents').click(function() {
+                var bucket = $('#bucket-select').val();
+                $.get('/list_bucket_contents', {bucket: bucket}, function(data) {
+                    $('#file-list').empty();
+                    data.forEach(function(item) {
+                        var li = $('<li>').text(item);
+                        var deleteBtn = $('<button>').text('Delete').click(function() {
+                            deleteItem(bucket, item);
+                        });
+                        li.append(deleteBtn);
+                        $('#file-list').append(li);
+                    });
+                });
+            });
+
+            $('#clear-bucket').click(function() {
+                var bucket = $('#bucket-select').val();
+                if (confirm('Are you sure you want to clear the bucket?')) {
+                    $.ajax({
+                        url: '/clear_bucket',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({bucket: bucket}),
+                        success: function(response) {
+                            alert(response.message);
+                            $('#list-contents').click();
+                        },
+                        error: function(xhr) {
+                            alert('Error: ' + xhr.responseJSON.error);
+                        }
+                    });
+                }
+            });
+
+            function deleteItem(bucket, key) {
+                if (confirm('Are you sure you want to delete this item?')) {
+                    $.ajax({
+                        url: '/delete_item',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({bucket: bucket, key: key}),
+                        success: function(response) {
+                            alert(response.message);
+                            $('#list-contents').click();
+                        },
+                        error: function(xhr) {
+                            alert('Error: ' + xhr.responseJSON.error);
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
