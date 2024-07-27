@@ -1,6 +1,5 @@
 Certainly! I'll create a README.md file for GitHub based on the new format of your S3 Bucket Manager application. Here's the content for your README.md:
 
-```markdown
 # S3 Bucket Manager
 
 ![S3_Bucket_Manager](Documents/Readme.md/image.png)
@@ -91,7 +90,6 @@ Access the application at `http://localhost:5000` in your web browser.
 - Ensure your AWS credentials have the necessary permissions for S3 operations.
 - For production use, consider setting up HTTPS and implementing user authentication.
 
-```
 
 This README provides a comprehensive guide for your GitHub repository, explaining what the S3 Bucket Manager does, how to install and run it, and important security considerations. You may want to add or modify sections based on specific details of your implementation or any additional features you've added to the application.
 
