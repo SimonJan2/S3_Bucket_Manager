@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
-from secrets_1 import ACCESS_KEY, SECRET_KEY
+#from secrets_1 import ACCESS_KEY, SECRET_KEY
 from boto3 import client
 import os
 
