@@ -1,5 +1,3 @@
-Certainly! I'll create a README.md file for GitHub based on the new format of your S3 Bucket Manager application. Here's the content for your README.md:
-
 # S3 Bucket Manager
 
 ![S3_Bucket_Manager](Documents/Readme.md/image.png)
