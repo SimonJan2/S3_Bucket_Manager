@@ -1,7 +1,8 @@
-# S3 Folder Uploader
+# S3 Bucket Manager
 
+![S3_Bucket_Manager](Documents/Readme.md/image.png)
 ## Table Of Contents
-- [S3 Folder Uploader](#s3-folder-uploader)
+- [S3 Bucket Manager](#s3-bucket-manager)
   - [Table Of Contents](#table-of-contents)
   - [Overview](#overview)
     - [Key Features](#key-features)
@@ -16,7 +17,7 @@
 
 ## Overview
 
-The S3 Folder Uploader is a graphical user interface (GUI) application built using Tkinter and Boto3 that allows users to interact with their Amazon S3 buckets. The application enables users to upload folders, list bucket contents, clear buckets, and delete specific items from a bucket, all through a user-friendly dark-themed interface.
+The S3 Bucket Manager is a graphical user interface (GUI) application built using Tkinter and Boto3 that allows users to interact with their Amazon S3 buckets. The application enables users to upload folders, list bucket contents, clear buckets, and delete specific items from a bucket, all through a user-friendly dark-themed interface.
 
 ### Key Features
 
