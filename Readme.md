@@ -87,8 +87,3 @@ Access the application at `http://localhost:5000` in your web browser.
 
 - Ensure your AWS credentials have the necessary permissions for S3 operations.
 - For production use, consider setting up HTTPS and implementing user authentication.
-
-
-This README provides a comprehensive guide for your GitHub repository, explaining what the S3 Bucket Manager does, how to install and run it, and important security considerations. You may want to add or modify sections based on specific details of your implementation or any additional features you've added to the application.
-
-Remember to replace `path_to_your_image.png` with the actual path to your application's screenshot or logo, and update the GitHub repository URL in the installation instructions to match your actual repository URL.
