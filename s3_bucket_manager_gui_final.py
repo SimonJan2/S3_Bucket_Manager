@@ -1,15 +1,22 @@
+import os
+import boto3
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from secrets_1 import ACCESS_KEY, SECRET_KEY
-from boto3 import client
-import os
 
+print("Starting script...")
+
+# Use environment variables for AWS credentials
 # ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID')
 # SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
-# Initialize the S3 client
-s3 = client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
+print("AWS credentials loaded")
 
+# Initialize the S3 client
+s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
+print("S3 client created")
+
+# Define a function to recursively upload files and folders
 def upload_to_s3(local_path, bucket_name, s3_path):
     if os.path.isdir(local_path):
         for item in os.listdir(local_path):
@@ -20,12 +27,16 @@ def upload_to_s3(local_path, bucket_name, s3_path):
         s3.upload_file(local_path, bucket_name, s3_path)
         print(f"Uploaded {local_path} to {bucket_name}/{s3_path}")
 
+# Define a function to select a folder
 def select_folder():
+    print("Select folder called")
     folder_path = filedialog.askdirectory()
     if folder_path:
         folder_path_var.set(folder_path)
 
+# Define a function to fetch the list of S3 buckets
 def fetch_buckets():
+    print("Fetch buckets called")
     try:
         response = s3.list_buckets()
         buckets = [bucket['Name'] for bucket in response['Buckets']]
@@ -34,9 +45,12 @@ def fetch_buckets():
         for bucket in buckets:
             bucket_menu['menu'].add_command(label=bucket, command=tk._setit(bucket_var, bucket))
     except Exception as e:
+        print(f"Error fetching buckets: {e}")
         messagebox.showerror("Error", f"An error occurred while fetching buckets: {e}")
 
+# Define a function to upload a folder to an S3 bucket
 def upload_folder():
+    print("Upload folder called")
     folder_path = folder_path_var.get()
     if not folder_path:
         messagebox.showerror("Error", "Please select a folder to upload.")
@@ -51,9 +65,12 @@ def upload_folder():
         upload_to_s3(folder_path, bucket_name, 'python')
         messagebox.showinfo("Success", "Upload completed.")
     except Exception as e:
+        print(f"Error uploading folder: {e}")
         messagebox.showerror("Error", f"An error occurred: {e}")
 
+# Define a function to clear the contents of the selected bucket
 def clear_bucket():
+    print("Clear bucket called")
     bucket_name = bucket_var.get()
     if not bucket_name:
         messagebox.showerror("Error", "Please select an S3 bucket.")
@@ -69,9 +86,12 @@ def clear_bucket():
                     print(f"Deleted {obj['Key']} from {bucket_name}")
             messagebox.showinfo("Success", "All objects deleted from the bucket.")
         except Exception as e:
+            print(f"Error clearing bucket: {e}")
             messagebox.showerror("Error", f"An error occurred: {e}")
 
+# Define a function to list the contents of the selected bucket
 def list_bucket_contents():
+    print("List bucket contents called")
     bucket_name = bucket_var.get()
     if not bucket_name:
         messagebox.showerror("Error", "Please select an S3 bucket.")
@@ -87,9 +107,12 @@ def list_bucket_contents():
             file_list.delete(0, tk.END)
             messagebox.showinfo("Info", "Bucket is empty.")
     except Exception as e:
+        print(f"Error listing bucket contents: {e}")
         messagebox.showerror("Error", f"An error occurred: {e}")
 
+# Define a function to delete the selected item
 def delete_selected_item():
+    print("Delete selected item called")
     bucket_name = bucket_var.get()
     if not bucket_name:
         messagebox.showerror("Error", "Please select an S3 bucket.")
@@ -108,12 +131,14 @@ def delete_selected_item():
             file_list.delete(selected[0])
             messagebox.showinfo("Success", f"Deleted '{key}' from the bucket.")
         except Exception as e:
+            print(f"Error deleting item: {e}")
             messagebox.showerror("Error", f"An error occurred: {e}")
+
+print("Initializing Tkinter...")
 
 # Create the main window
 root = tk.Tk()
 root.title("Simon Jan - S3 Bucket Manager")
-# Set the background color of the window
 root.configure(bg="#2e2e2e")
 
 # Apply a style
@@ -127,19 +152,21 @@ style.configure("TListbox", padding=6, background="#3e3e3e", foreground="#d3d3d3
 folder_path_var = tk.StringVar()
 bucket_var = tk.StringVar()
 
+print("GUI setup complete")
+
 # Create the GUI elements
 folder_label = ttk.Label(root, text="Folder Path:")
 folder_entry = ttk.Entry(root, textvariable=folder_path_var, width=50)
 folder_button = ttk.Button(root, text="Browse", command=select_folder)
-
+# Create the menu
 bucket_label = ttk.Label(root, text="S3 Bucket:")
 bucket_menu = ttk.OptionMenu(root, bucket_var, '')
-
+# Create the buttons
 fetch_button = ttk.Button(root, text="Fetch Buckets", command=fetch_buckets)
 list_button = ttk.Button(root, text="List Contents", command=list_bucket_contents)
 clear_button = ttk.Button(root, text="Clear Bucket", command=clear_bucket, style="Red.TButton")
 upload_button = ttk.Button(root, text="Upload", command=upload_folder)
-
+# Create the listbox
 file_list = tk.Listbox(root, width=80, height=20, bg="#3e3e3e", fg="#d3d3d3", selectbackground="#555555", selectforeground="white")
 delete_button = ttk.Button(root, text="Delete Selected", command=delete_selected_item, style="Red.TButton")
 
@@ -162,5 +189,5 @@ upload_button.grid(row=2, column=2, padx=10, pady=10)
 file_list.grid(row=3, column=0, columnspan=3, padx=10, pady=10)
 delete_button.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
 
-# Run the application
+print("Starting main loop")
 root.mainloop()
