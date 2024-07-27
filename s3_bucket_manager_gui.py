@@ -4,6 +4,9 @@ from secrets_1 import ACCESS_KEY, SECRET_KEY
 from boto3 import client
 import os
 
+ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID')
+SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+
 # Initialize the S3 client
 s3 = client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
