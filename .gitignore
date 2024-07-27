@@ -2,3 +2,5 @@
 secrets_1.py
 # ignore auto_s3_backup.py
 auto_s3_backup.py
+# ignore __pycache__
+__pycache__
